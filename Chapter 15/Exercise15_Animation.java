@@ -3,7 +3,6 @@ import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.shape.Rectangle;
@@ -71,26 +70,7 @@ public class Exercise15_Animation extends Application {
 		launch(args);
 	}
 }
-class Pentagon extends Pane{
-	private void paint() {
-		Polygon polygon = new Polygon();
-		polygon.setFill(Color.PINK);
-		polygon.setStroke(Color.BLACK);
-		
-		getChildren().clear();
-		getChildren().add(polygon);
-	}
-	@Override
-	public void setWidth(double width) {
-		super.setWidth(width);
-		paint();
-	}
-	@Override
-	public void setHeight(double height) {
-		super.setHeight(height);
-		paint();
-	}
-}
+
 
 
 
