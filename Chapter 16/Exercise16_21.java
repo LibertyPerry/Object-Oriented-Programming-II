@@ -1,6 +1,9 @@
-import java.util.Scanner;
-
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,44 +12,37 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Exercise16_21 extends Application{
 	@Override
 	public void start(Stage primaryStage) {
-		Pane pane = new Pane();
-		Text text = new Text(150, 150, " ");
-		pane.getChildren().add(text);
+		TextField tfCountdown = new TextField("0");
+		tfCountdown.setFont(Font.font(50));
+		tfCountdown.setAlignment(Pos.CENTER);
+		tfCountdown.setFocusTraversable(true);
+		Pane pane = new Pane(tfCountdown);
+		StackPane stackPane = new StackPane(pane);
+		int cycles = Integer.parseInt(tfCountdown.getText());
 		
-		BorderPane pane4TF = new BorderPane();
-		pane4TF.setPadding(new Insets(5, 5, 5, 5));
-		pane4TF.setLeft(new Label("Enter Number of Seconds"));
+		Timeline timeline = new Timeline(new KeyFrame (Duration.millis(1000), e ->{
+			tfCountdown.setText((Integer.parseInt(tfCountdown.getText()) - 1) + " ");
+		}));
+		timeline.setCycleCount(cycles);
 		
-		TextField tf = new TextField();
-		tf.setAlignment(Pos.BOTTOM_RIGHT);
-		pane4TF.setCenter(tf);
-		
-		tf.setOnAction(e -> text.setText(tf.getText()));
-		// Make it an intger value??
-		
-		BorderPane borderpane = new BorderPane();
-		borderpane.setCenter(pane);
-		BorderPane.setAlignment(pane, Pos.CENTER);
-		borderpane.setBottom(pane4TF);
-		BorderPane.setAlignment(pane4TF, Pos.CENTER);
-		
-		Scene scene = new Scene(borderpane, 300, 300);
-		primaryStage.setTitle("Exercise16_01");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		
-		scene.setOnKeyPressed(e ->{
-			if(e.getCode() == KeyCode.ENTER) {
-				
+		tfCountdown.setOnKeyPressed(e->{
+			if (e.getCode() == KeyCode.ENTER) {
+				tfCountdown.setEditable(true);
+				timeline.play();
 			}
 		});
-		
+		primaryStage.setScene(new Scene(stackPane));
+		primaryStage.setTitle("Exercise 16_21");
+		primaryStage.show();
 	}
 	public static void main(String[] args) {
 		launch(args);
