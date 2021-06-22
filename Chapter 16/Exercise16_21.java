@@ -1,24 +1,21 @@
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Exercise16_21 extends Application{
+	private static final String Media_URL = "https://liveexample.pearsoncmg.com/common/audio/anthem/anthem0.mp3";
 	@Override
 	public void start(Stage primaryStage) {
 		TextField tfCountdown = new TextField("0");
@@ -27,20 +24,33 @@ public class Exercise16_21 extends Application{
 		tfCountdown.setFocusTraversable(true);
 		Pane pane = new Pane(tfCountdown);
 		StackPane stackPane = new StackPane(pane);
-		int cycles = Integer.parseInt(tfCountdown.getText());
-		
+	
 		Timeline timeline = new Timeline(new KeyFrame (Duration.millis(1000), e ->{
-			tfCountdown.setText((Integer.parseInt(tfCountdown.getText()) - 1) + " ");
+			tfCountdown.setText((Integer.parseInt(tfCountdown.getText()) - 1) + "");
 		}));
-		timeline.setCycleCount(cycles);
+		timeline.setCycleCount(Timeline.INDEFINITE);
 		
-		tfCountdown.setOnKeyPressed(e->{
-			if (e.getCode() == KeyCode.ENTER) {
-				tfCountdown.setEditable(true);
-				timeline.play();
+		Media media = new Media(Media_URL);
+		MediaPlayer mediaPlayer = new MediaPlayer(media);
+		MediaView mediaView = new MediaView(mediaPlayer);
+		
+		BorderPane bPane = new BorderPane();
+		bPane.setCenter(stackPane);
+		bPane.setBottom(mediaView);
+		
+		tfCountdown.setOnAction(e -> {
+			if (timeline.getStatus() == Timeline.Status.RUNNING) {
+				timeline.stop();
 			}
+			timeline.setCycleCount(Integer.parseInt(tfCountdown.getText()));
+			tfCountdown.setEditable(false);
+			timeline.play();
 		});
-		primaryStage.setScene(new Scene(stackPane));
+		timeline.setOnFinished(e -> {
+			mediaPlayer.play();
+		});
+		
+		primaryStage.setScene(new Scene(bPane));
 		primaryStage.setTitle("Exercise 16_21");
 		primaryStage.show();
 	}
