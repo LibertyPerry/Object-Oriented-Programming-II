@@ -1,8 +1,8 @@
  /*
-Author: 
-Date: 
+Author: Liberty Perry
+Date: July 07 2021 
 
-Description: 
+Description: (Maximum element in an array) Implement the following method that returns the maximum element in an array.
  */
 public class Exercise19_05 {
   public static void main(String[] args) {
