@@ -2,7 +2,7 @@
 Author: Liberty Perry
 Date: July 07 2021
 
-Description: 
+Description: (Distinct elements in ArrayList) Write the following method that returns a new ArrayList. The new list contains the non-duplicate elements from the original list.
  */
 import java.util.ArrayList;
 
